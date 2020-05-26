@@ -6,6 +6,8 @@ workspace "teal"
         "Release"
     }
 
+startproject "testbed"
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "teal"
@@ -18,7 +20,8 @@ project "teal"
 
     files {
         "%{prj.location}/src/**.h",
-        "%{prj.location}/src/**.cpp"
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/include/**"
     }
 
     includedirs {

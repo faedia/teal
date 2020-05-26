@@ -1,9 +1,13 @@
-#dirs
+# Output Dirs
 bin
 obj
-*.sln
-.vs
 
-#files
+# Visual Studio Code
+.vscode
+
+# Visual Studio
+.vs
+*.sln
 *.vcxproj
 *.vcxproj.user
+*.vcxproj.filters
