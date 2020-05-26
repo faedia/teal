@@ -41,8 +41,8 @@ project "teal"
         defines "TL_RELEASE"
         optimize "On"
 
-project "Testbed"
-    location "Testbed"
+project "testbed"
+    location "testbed"
     kind "ConsoleApp"
     language "C++"
 
@@ -60,6 +60,10 @@ project "Testbed"
 
     links {
         "teal"
+    }
+
+    postbuildcommands {
+        ("{COPY} ../bin/" .. outputdir .. "/teal/ %{cfg.buildtarget.directory}")
     }
 
     filter "system:windows"
