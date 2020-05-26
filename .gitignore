@@ -1,0 +1,9 @@
+#dirs
+bin
+obj
+*.sln
+.vs
+
+#files
+*.vcxproj
+*.vcxproj.user
