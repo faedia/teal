@@ -25,7 +25,8 @@ project "teal"
     }
 
     includedirs {
-        "%{prj.location}/include/"
+        "%{prj.location}/include/",
+        "dep/spdlog/include"
     }
 
     filter "system:windows"
@@ -58,7 +59,8 @@ project "testbed"
     }
 
     includedirs {
-        "teal/include"
+        "teal/include",
+        "dep/spdlog/include"
     }
 
     links {
