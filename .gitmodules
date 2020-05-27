@@ -1,5 +1,4 @@
-  
-[submodule "dep/spdlog"]
+
+[submodule "spdlog"]
 	path = dep/spdlog
 	url = https://github.com/gabime/spdlog
-	branch = v1.6.1
