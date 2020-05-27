@@ -4,8 +4,7 @@
 
 namespace Teal 
 {
-	class TL_API 
-	Application
+	class TL_API Application
 	{
 	public:
 		Application();
@@ -14,5 +13,5 @@ namespace Teal
 		void Run();
 	};
 
-	TL_API Application* CreateApplication();
+	Application* CreateApplication();
 }

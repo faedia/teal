@@ -18,5 +18,6 @@ private:
 
 Teal::Application* Teal::CreateApplication() 
 {
+	Teal::Logger::GetCoreLogger().Debug("Creating application.");
 	return new Testbed();
 }

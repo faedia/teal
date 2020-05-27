@@ -8,7 +8,6 @@ namespace Teal
 	Logger::Logger(const char* name)
 	{
 		p_Logger = spdlog::stdout_color_mt(name);
-		p_Logger->set_level(spdlog::level::trace);
 	}
 
 	Logger::~Logger()
@@ -17,7 +16,7 @@ namespace Teal
 	}
 
 	void Logger::Init() {
-		spdlog::set_pattern("%^[%T] %n: %v%$");
+		spdlog::set_pattern("%^%L [%T:%f] %-8!n: %v%$");
 		spdlog::set_level(spdlog::level::trace);
 	}
 
