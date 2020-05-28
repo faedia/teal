@@ -1,5 +1,8 @@
 #include "teal/core/Logger.h"
+#include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+
+#define GETLOGGER(l) (std::static_pointer_cast<spdlog::logger>(l))
 
 namespace Teal
 {
@@ -7,12 +10,12 @@ namespace Teal
 
 	Logger::Logger(const char* name)
 	{
-		p_Logger = spdlog::stdout_color_mt(name);
+		_LoggerP = spdlog::stdout_color_mt(name);
 	}
 
 	Logger::~Logger()
 	{
-
+		spdlog::drop(GETLOGGER(_LoggerP)->name());
 	}
 
 	void Logger::Init() {
@@ -20,10 +23,10 @@ namespace Teal
 		spdlog::set_level(spdlog::level::trace);
 	}
 
-	void Logger::Trace(const char* fmt...) { this->p_Logger->trace(fmt); }
-	void Logger::Debug(const char* fmt...) { this->p_Logger->debug(fmt); }
-	void Logger::Info(const char* fmt...) { this->p_Logger->info(fmt); }
-	void Logger::Warn(const char* fmt...) { this->p_Logger->warn(fmt); }
-	void Logger::Error(const char* fmt...) { this->p_Logger->error(fmt); }
-	void Logger::Critical(const char* fmt...) { this->p_Logger->critical(fmt); }
+	void Logger::Trace(const char* fmt...) { GETLOGGER(this->_LoggerP)->trace(fmt); }
+	void Logger::Debug(const char* fmt...) { GETLOGGER(this->_LoggerP)->debug(fmt); }
+	void Logger::Info(const char* fmt...) { GETLOGGER(this->_LoggerP)->info(fmt); }
+	void Logger::Warn(const char* fmt...) { GETLOGGER(this->_LoggerP)->warn(fmt); }
+	void Logger::Error(const char* fmt...) { GETLOGGER(this->_LoggerP)->error(fmt); }
+	void Logger::Critical(const char* fmt...) { GETLOGGER(this->_LoggerP)->critical(fmt); }
 }

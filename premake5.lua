@@ -29,6 +29,10 @@ project "teal"
         "dep/spdlog/include"
     }
 
+    postbuildcommands {
+        ("{COPY} ../bin/" .. outputdir .. "/teal/ ../bin/" .. outputdir .. "/testbed/")
+    }
+
     filter "system:windows"
         cppdialect "C++17"
         systemversion "latest"
@@ -59,16 +63,11 @@ project "testbed"
     }
 
     includedirs {
-        "teal/include",
-        "dep/spdlog/include"
+        "teal/include"
     }
 
     links {
         "teal"
-    }
-
-    postbuildcommands {
-        ("{COPY} ../bin/" .. outputdir .. "/teal/ %{cfg.buildtarget.directory}")
     }
 
     filter "system:windows"
