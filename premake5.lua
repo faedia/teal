@@ -19,14 +19,18 @@ project "teal"
     objdir ("obj/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.location}/src/**.h",
-        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/src/teal/**.h",
+        "%{prj.location}/src/teal/**.cpp",
         "%{prj.location}/include/**"
     }
 
     includedirs {
         "%{prj.location}/include/",
         "dep/spdlog/include"
+    }
+
+    links {
+        "opengl32"
     }
 
     postbuildcommands {
@@ -37,9 +41,14 @@ project "teal"
         cppdialect "C++17"
         systemversion "latest"
         defines {
-            "TL_WINDOWS",
+            "TL_WIN32",
             "TL_DLL"
         }
+        characterset ("ASCII")
+        files {
+            "%{prj.location}/src/platform/win32/**.cpp",
+            "%{prj.location}/src/platform/win32/**.h"
+		}
 
     filter "configurations:Debug"
         defines "TL_DEBUG"
@@ -73,8 +82,9 @@ project "testbed"
     filter "system:windows"
         cppdialect "C++17"
         systemversion "latest"
+        characterset ("ASCII")
         defines {
-            "TL_WINDOWS"
+            "TL_WIN32"
         }
 
     filter "configurations:Debug"

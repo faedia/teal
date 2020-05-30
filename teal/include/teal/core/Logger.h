@@ -22,7 +22,7 @@ namespace Teal
 		inline void Critical(const char* fmt...);
 
 	private:
-		// This is a generic pointer to an interal class that has the implementation specific detail of the logger
+		// This is a generic pointer to an internal class that has the implementation specific detail of the logger
 		// This means that the users code should not be dependant on whatever logging library that is used and hides
 		// all details from the end user.
 		std::shared_ptr<void> _LoggerP;

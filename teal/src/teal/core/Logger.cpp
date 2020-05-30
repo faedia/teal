@@ -8,10 +8,7 @@ namespace Teal
 {
 	Logger Logger::_CoreLogger ("Teal");
 
-	Logger::Logger(const char* name)
-	{
-		_LoggerP = spdlog::stdout_color_mt(name);
-	}
+	Logger::Logger(const char* name) : _LoggerP(spdlog::stdout_color_mt(name)) {}
 
 	Logger::~Logger()
 	{
