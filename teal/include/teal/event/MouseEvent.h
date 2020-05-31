@@ -7,8 +7,10 @@ namespace Teal
 	class TL_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(float x, float y) : _X(x), _Y(y) {}
+		MouseMovedEvent(float x, float y, float rawx, float rawy) : _X(x), _Y(y), _RawX(rawx), _RawY(rawy) {}
 
+		float GetRawX() const { return _RawX; }
+		float GetRawY() const { return _RawY; }
 		float GetX() const { return _X; }
 		float GetY() const { return _Y; }
 
@@ -22,7 +24,7 @@ namespace Teal
 		EVENT_CLASS_TYPE(MouseMoved)
 		EVENT_CLASS_CATEGORY(ECMouse | ECInput)
 	private:
-		float _X, _Y;
+		float _X, _Y, _RawX, _RawY;
 	};
 
 	class TL_API MouseScrolledEvent : public Event

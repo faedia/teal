@@ -1,7 +1,8 @@
 #include "teal/Core.h"
 #include "Win32Window.h"
-#include "Win32OpenGLContext.h"
+#include "opengl/Win32OpenGLContext.h"
 #include <dwmapi.h>
+#include <queue>
 
 namespace Teal
 {
@@ -25,16 +26,16 @@ namespace Teal
 			int status = TranslateMessage(&msg);
 
 			DispatchMessage(&msg);
-			std::shared_ptr<Event> currentEventP = ((Win32Window*)_WindowData)->GetCurrentEvent();
-			if (currentEventP && currentEventP->GetEventType() != EventType::None)
+			std::queue<std::shared_ptr<Event>>& eventQueueP = ((Win32Window*)_WindowData)->GetEventQueue();
+			while (!eventQueueP.empty())
 			{
-				if (currentEventP->GetEventType() == EventType::WindowResize)
+				std::shared_ptr<Event> e = eventQueueP.front();
+				eventQueueP.pop();
+				if (e->GetEventType() == EventType::WindowResize)
 				{
-					_RenderingContext->OnResize(*(std::static_pointer_cast<WindowResizeEvent>(currentEventP)));
+					_RenderingContext->OnResize(*std::static_pointer_cast<WindowResizeEvent>(e));
 				}
-
-				_EventCallback(*currentEventP);
-				((Win32Window*)_WindowData)->ResetEvent();
+				_EventCallback(*e);
 			}
 		}
 		SwapBuffers(((Win32Window*)_WindowData)->GetHDC());

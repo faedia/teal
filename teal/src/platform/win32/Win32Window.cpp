@@ -76,7 +76,20 @@ namespace Teal
 			int height = HIWORD(lp);
 			w->_Width = width;
 			w->_Height = height;
-			w->_CurrentEvent = std::shared_ptr<WindowResizeEvent>(new WindowResizeEvent(width, height));
+			w->_EventQueue.push(std::make_shared< WindowResizeEvent>(WindowResizeEvent(width, height)));
+			break;
+		}
+		case WM_SYSCHAR:
+		case WM_CHAR:
+		case WM_UNICHAR:
+		{
+			if (msg == WM_UNICHAR && wp == UNICODE_NOCHAR)
+			{
+				return TRUE;
+			}
+
+			int kc = wp;
+			w->_EventQueue.push(std::make_shared<KeyTypedEvent>(KeyTypedEvent(kc)));
 			break;
 		}
 		case WM_SYSKEYDOWN:
@@ -84,14 +97,14 @@ namespace Teal
 		{
 			int kc = wp;
 			int rc = LOWORD(lp) - 1 + (BIT(30) & lp) ? 1 : 0;
-			w->_CurrentEvent = std::shared_ptr<KeyPressedEvent>(new KeyPressedEvent(kc, rc));
+			w->_EventQueue.push(std::make_shared<KeyPressedEvent>(KeyPressedEvent(kc, rc)));
 			break;
 		}
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
 			int kc = wp;
-			w->_CurrentEvent = std::shared_ptr<KeyReleasedEvent>(new KeyReleasedEvent(kc));
+			w->_EventQueue.push(std::make_shared<KeyReleasedEvent>(KeyReleasedEvent(kc)));
 			break;
 		}
 		case WM_SETFOCUS:
@@ -124,7 +137,10 @@ namespace Teal
 				}
 				if (dx != 0 || dy != 0)
 				{
-					w->_CurrentEvent = std::shared_ptr<MouseMovedEvent>(new MouseMovedEvent(w->_AbsoluteX + dx, w->_AbsoluteY + dy));
+					POINT p;
+					GetCursorPos(&p);
+					ScreenToClient(hwnd, &p);
+					w->_EventQueue.push(std::make_shared<MouseMovedEvent>(MouseMovedEvent(p.x, p.y, w->_AbsoluteX + dx, w->_AbsoluteY + dy)));
 					w->_AbsoluteX += dx;
 					w->_AbsoluteY += dy;
 				}
@@ -134,62 +150,64 @@ namespace Teal
 					{
 					case RI_MOUSE_LEFT_BUTTON_DOWN:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonPressedEvent>(new MouseButtonPressedEvent(0));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(0)));
 						break;
 					}
 					case RI_MOUSE_LEFT_BUTTON_UP:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonReleasedEvent>(new MouseButtonReleasedEvent(0));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(0)));
 						break;
 					}
 					case RI_MOUSE_MIDDLE_BUTTON_DOWN:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonPressedEvent>(new MouseButtonPressedEvent(1));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(1)));
 						break;
 					}
 					case RI_MOUSE_MIDDLE_BUTTON_UP:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonReleasedEvent>(new MouseButtonReleasedEvent(1));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(1)));
 						break;
 					}
 					case RI_MOUSE_RIGHT_BUTTON_DOWN:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonPressedEvent>(new MouseButtonPressedEvent(2));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(2)));
 						break;
 					}
 					case RI_MOUSE_RIGHT_BUTTON_UP:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonReleasedEvent>(new MouseButtonReleasedEvent(2));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(2)));
 						break;
 					}
 					case RI_MOUSE_BUTTON_4_DOWN:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonPressedEvent>(new MouseButtonPressedEvent(3));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(3)));
 						break;
 					}
 					case RI_MOUSE_BUTTON_4_UP:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonReleasedEvent>(new MouseButtonReleasedEvent(3));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(3)));
 						break;
 					}
 					case RI_MOUSE_BUTTON_5_DOWN:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonPressedEvent>(new MouseButtonPressedEvent(4));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(4)));
 						break;
 					}
 					case RI_MOUSE_BUTTON_5_UP:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseButtonReleasedEvent>(new MouseButtonReleasedEvent(4));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(4)));
 						break;
 					}
 					case RI_MOUSE_WHEEL:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseScrolledEvent>(new MouseScrolledEvent(0, data->data.mouse.usButtonData));
+						short wheelvalue = data->data.mouse.usButtonData;
+						w->_EventQueue.push(std::make_shared<MouseScrolledEvent>(MouseScrolledEvent(0, (float)wheelvalue / (float)120)));
 						break;
 					}
 					case RI_MOUSE_HWHEEL:
 					{
-						w->_CurrentEvent = std::shared_ptr<MouseScrolledEvent>(new MouseScrolledEvent(data->data.mouse.usButtonData, 0));
+						short wheelvalue = data->data.mouse.usButtonData;
+						w->_EventQueue.push(std::make_shared<MouseScrolledEvent>(MouseScrolledEvent((float)wheelvalue / (float)120, 0)));
 						break;
 					}
 					default:

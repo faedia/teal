@@ -16,7 +16,7 @@ namespace Teal
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyTyped, KeyPressed, KeyReleased,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -60,10 +60,10 @@ namespace Teal
 		template<typename T, typename F>
 		bool Dispatch(const F& f)
 		{
-			if (_Event.GetEventType == T::GetStaticType())
+			if (_Event.GetEventType() == T::GetStaticType())
 			{
 				if (f(static_cast<T&>(_Event)))
-					_Event.handled();
+					_Event.Handled();
 				return true;
 			}
 			return false;

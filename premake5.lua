@@ -11,6 +11,7 @@ startproject "testbed"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "dep/glad"
+include "dep/imgui"
 
 project "teal"
     location "teal"
@@ -29,12 +30,14 @@ project "teal"
     includedirs {
         "%{prj.location}/include/",
         "dep/spdlog/include",
-        "dep/glad/include"
+        "dep/glad/include",
+        "dep/imgui"
     }
 
     links {
         "opengl32",
-        "glad"
+        "glad",
+        "imgui"
     }
 
     postbuildcommands {

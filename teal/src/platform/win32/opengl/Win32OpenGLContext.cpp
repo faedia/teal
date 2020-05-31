@@ -1,5 +1,5 @@
 #include "Win32OpenGLContext.h"
-#include "Win32Window.h"
+#include "../Win32Window.h"
 #include <glad/glad_wgl.h>
 #include <glad/glad.h>
 

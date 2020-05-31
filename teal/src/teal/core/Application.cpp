@@ -16,8 +16,6 @@ namespace Teal
 
 	void Application::onEvent(Event& event)
 	{
-		TL_CORE_TRACE(event.ToString().c_str());
-
 		for (auto it = p_LayerStack.end(); it != p_LayerStack.begin();)
 		{
 			(*--it)->onEvent(event);
@@ -29,11 +27,13 @@ namespace Teal
 	void Application::PushLayer(LayerStack::StackObj layer)
 	{
 		p_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(LayerStack::StackObj layer)
 	{
 		p_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void Application::Run()

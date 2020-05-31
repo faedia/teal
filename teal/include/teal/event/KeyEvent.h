@@ -15,6 +15,22 @@ namespace Teal
 		int p_KeyCode;
 	};
 
+	class TL_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << GetName() << " " << p_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
+
 	class TL_API KeyPressedEvent : public KeyEvent
 	{
 	public:

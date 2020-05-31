@@ -3,6 +3,7 @@
 #include <string>
 #include <Windows.h>
 #include <teal/Event.h>
+#include <queue>
 
 namespace Teal
 {
@@ -16,8 +17,7 @@ namespace Teal
 		HINSTANCE& GetHinstance() { return _Hinstance; }
 		HDC& GetHDC() { return _HDC; }
 
-		inline std::shared_ptr<Event> GetCurrentEvent() { return _CurrentEvent; }
-		inline void ResetEvent() { _CurrentEvent.reset(); }
+		inline std::queue<std::shared_ptr<Event>>& GetEventQueue() { return _EventQueue; }
 
 		inline int GetWidth() const { return _Width; }
 		inline int GetHeight() const { return _Height; }
@@ -25,7 +25,7 @@ namespace Teal
 	private:
 		static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);
 
-		std::shared_ptr<Event> _CurrentEvent;
+		std::queue<std::shared_ptr<Event>> _EventQueue;
 
 		HWND _Hwnd;
 		HINSTANCE _Hinstance;
