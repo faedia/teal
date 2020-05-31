@@ -39,9 +39,9 @@ namespace Teal
 	void Application::Run()
 	{
 		p_Running = true;
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		while (p_Running)
 		{
-			glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (auto layer : p_LayerStack)

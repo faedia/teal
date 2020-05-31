@@ -1,6 +1,6 @@
 #include "teal/imgui/ImGuiLayer.h"
 #include "../../platform/opengl/imgui_impl_opengl3.h"
-#include <Windows.h>
+#include "teal/core/KeyCode.h"
 namespace Teal
 {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui")
@@ -23,22 +23,22 @@ namespace Teal
 
 		io.DisplaySize = ImVec2(1264, 681);
 
-		io.KeyMap[ImGuiKey_Tab] = VK_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = VK_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = VK_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = VK_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = VK_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = VK_PRIOR;
-		io.KeyMap[ImGuiKey_PageDown] = VK_NEXT;
-		io.KeyMap[ImGuiKey_Home] = VK_HOME;
-		io.KeyMap[ImGuiKey_End] = VK_END;
-		io.KeyMap[ImGuiKey_Insert] = VK_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = VK_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = VK_BACK;
-		io.KeyMap[ImGuiKey_Space] = VK_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = VK_RETURN;
-		io.KeyMap[ImGuiKey_Escape] = VK_ESCAPE;
-		io.KeyMap[ImGuiKey_KeyPadEnter] = VK_RETURN;
+		io.KeyMap[ImGuiKey_Tab] = TL_KB_TAB;
+		io.KeyMap[ImGuiKey_LeftArrow] = TL_KB_LEFT;
+		io.KeyMap[ImGuiKey_RightArrow] = TL_KB_RIGHT;
+		io.KeyMap[ImGuiKey_UpArrow] = TL_KB_UP;
+		io.KeyMap[ImGuiKey_DownArrow] = TL_KB_DOWN;
+		io.KeyMap[ImGuiKey_PageUp] = TL_KB_PAGE_UP;
+		io.KeyMap[ImGuiKey_PageDown] = TL_KB_PAGE_DOWN;
+		io.KeyMap[ImGuiKey_Home] = TL_KB_HOME;
+		io.KeyMap[ImGuiKey_End] = TL_KB_END;
+		io.KeyMap[ImGuiKey_Insert] = TL_KB_INSERT;
+		io.KeyMap[ImGuiKey_Delete] = TL_KB_DELETE;
+		io.KeyMap[ImGuiKey_Backspace] = TL_KB_BACKSPACE;
+		io.KeyMap[ImGuiKey_Space] = TL_KB_SPACE;
+		io.KeyMap[ImGuiKey_Enter] = TL_KB_ENTER;
+		io.KeyMap[ImGuiKey_Escape] = TL_KB_ESCAPE;
+		io.KeyMap[ImGuiKey_KeyPadEnter] = TL_KB_ENTER;
 		io.KeyMap[ImGuiKey_A] = 'A';
 		io.KeyMap[ImGuiKey_C] = 'C';
 		io.KeyMap[ImGuiKey_V] = 'V';
@@ -93,10 +93,10 @@ namespace Teal
 		int kc = event.GetKeyCode();
 		io.KeysDown[kc] = true;
 		
-		io.KeyCtrl = io.KeysDown[VK_CONTROL] || io.KeysDown[VK_LCONTROL] || io.KeysDown[VK_RCONTROL];
-		io.KeyShift = io.KeysDown[VK_SHIFT] || io.KeysDown[VK_LSHIFT] || io.KeysDown[VK_RSHIFT];
-		io.KeyAlt = io.KeysDown[VK_MENU] || io.KeysDown[VK_LMENU] || io.KeysDown[VK_RMENU];
-		io.KeySuper = io.KeysDown[VK_LWIN] || io.KeysDown[VK_RWIN];
+		io.KeyCtrl = io.KeysDown[TL_KB_LEFT_CONTROL] || io.KeysDown[TL_KB_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[TL_KB_LEFT_SHIFT] || io.KeysDown[TL_KB_RIGHT_SHIFT];
+		io.KeyAlt = io.KeysDown[TL_KB_LEFT_ALT] || io.KeysDown[TL_KB_RIGHT_ALT];
+		io.KeySuper = io.KeysDown[TL_KB_LEFT_SUPER] || io.KeysDown[TL_KB_RIGHT_SUPER];
 
 		return false;
 	}

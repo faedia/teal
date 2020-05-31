@@ -24,6 +24,8 @@ project "teal"
     files {
         "%{prj.location}/src/teal/**.h",
         "%{prj.location}/src/teal/**.cpp",
+        "%{prj.location}/src/platform/opengl/**.h",
+        "%{prj.location}/src/platform/opengl/**.cpp",
         "%{prj.location}/include/**"
     }
 

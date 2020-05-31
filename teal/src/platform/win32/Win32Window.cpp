@@ -1,5 +1,7 @@
 #include "Win32Window.h"
 
+#include "Win32KeyCode.h"
+
 namespace Teal
 {
 	Win32Window::Win32Window(const std::string& name, int width, int height) : _AbsoluteX(0), _AbsoluteY(0), _MouseInWindow(false), _Width(width), _Height(height)
@@ -97,14 +99,14 @@ namespace Teal
 		{
 			int kc = wp;
 			int rc = LOWORD(lp) - 1 + (BIT(30) & lp) ? 1 : 0;
-			w->_EventQueue.push(std::make_shared<KeyPressedEvent>(KeyPressedEvent(kc, rc)));
+			w->_EventQueue.push(std::make_shared<KeyPressedEvent>(KeyPressedEvent(ConvCode(kc), rc)));
 			break;
 		}
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
 			int kc = wp;
-			w->_EventQueue.push(std::make_shared<KeyReleasedEvent>(KeyReleasedEvent(kc)));
+			w->_EventQueue.push(std::make_shared<KeyReleasedEvent>(KeyReleasedEvent(ConvCode(kc))));
 			break;
 		}
 		case WM_SETFOCUS:
@@ -160,22 +162,22 @@ namespace Teal
 					}
 					case RI_MOUSE_MIDDLE_BUTTON_DOWN:
 					{
-						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(1)));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(2)));
 						break;
 					}
 					case RI_MOUSE_MIDDLE_BUTTON_UP:
 					{
-						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(1)));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(2)));
 						break;
 					}
 					case RI_MOUSE_RIGHT_BUTTON_DOWN:
 					{
-						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(2)));
+						w->_EventQueue.push(std::make_shared<MouseButtonPressedEvent>(MouseButtonPressedEvent(1)));
 						break;
 					}
 					case RI_MOUSE_RIGHT_BUTTON_UP:
 					{
-						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(2)));
+						w->_EventQueue.push(std::make_shared<MouseButtonReleasedEvent>(MouseButtonReleasedEvent(1)));
 						break;
 					}
 					case RI_MOUSE_BUTTON_4_DOWN:
