@@ -2,3 +2,6 @@
 [submodule "spdlog"]
 	path = dep/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule ".\\dep\\imgui"]
+	path = .\\dep\\imgui
+	url = https://github.com/ocornut/imgui.git
