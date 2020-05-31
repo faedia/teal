@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Common.h"
-#include "Window.h"
+#include "teal/core/Window.h"
+#include "teal/core/Layer.h"
+#include "teal/core/LayerStack.h"
 #include "teal/Event.h"
+
 
 namespace Teal 
 {
@@ -14,9 +16,14 @@ namespace Teal
 
 		virtual void onEvent(Event& event);
 
+		void PushLayer(LayerStack::StackObj layer);
+		void PushOverlay(LayerStack::StackObj layer);
+
 		void Run();
-	private:
-		std::unique_ptr<Window> _Window;
+	protected:
+		std::unique_ptr<Window> p_Window;
+		bool p_Running;
+		LayerStack p_LayerStack;
 	};
 
 	Application* CreateApplication();

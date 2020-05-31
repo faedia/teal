@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Common.h"
+#include "teal/core/Common.h"
 
 namespace Teal
 {

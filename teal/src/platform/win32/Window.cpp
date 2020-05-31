@@ -1,6 +1,7 @@
-#include "teal/core/Window.h"
+#include "teal/Core.h"
 #include "Win32Window.h"
 #include "Win32OpenGLContext.h"
+#include <dwmapi.h>
 
 namespace Teal
 {
@@ -36,7 +37,6 @@ namespace Teal
 				((Win32Window*)_WindowData)->ResetEvent();
 			}
 		}
-
 		SwapBuffers(((Win32Window*)_WindowData)->GetHDC());
 	}
 

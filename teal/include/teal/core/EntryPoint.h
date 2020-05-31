@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Common.h"
-#include "Logger.h"
+#include "teal/Core.h"
+
 extern Teal::Application* Teal::CreateApplication();
 
 int main(int argc, char** argv)

@@ -68,6 +68,7 @@ namespace Teal
 		case WM_NCCREATE:
 			w = static_cast<Win32Window*>(reinterpret_cast<CREATESTRUCT*>(lp)->lpCreateParams);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(w));
+			DefWindowProc(hwnd, msg, wp, lp);
 			break;
 		case WM_SIZE:
 		{

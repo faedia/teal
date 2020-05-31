@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/Common.h"
+#include "teal/core/Common.h"
 #include <sstream>
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
@@ -30,14 +30,15 @@ namespace Teal
 		ECMouseButton	= BIT(4)
 	};
 
-	class Event
+	class TL_API Event
 	{
 	public:
 		virtual EventType GetEventType() const { return EventType::None; };
 		virtual int GetCategoryFlags() const { return None; };
 
-		inline void handled() { p_Handled = true; }
-		inline void reset() { p_Handled = false; }
+		inline void Handled() { p_Handled = true; }
+		inline void Reset() { p_Handled = false; }
+		inline bool IsHandled() { return p_Handled; }
 
 		inline bool IsInCategory(EventCategory c)
 		{

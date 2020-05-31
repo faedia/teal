@@ -1,5 +1,5 @@
 #pragma once
-#include "Common.h"
+#include "teal/core/Common.h"
 #include <memory>
 #include <spdlog/spdlog.h>
 #define GETLOGGER(l) (std::static_pointer_cast<spdlog::logger>(l))

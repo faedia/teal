@@ -1,16 +1,13 @@
 #pragma once
 
-#include "Common.h"
-#include "../Event.h"
-#include <string>
-#include <memory>
-#include <functional>
-
-#include "../render/RenderingContext.h"
+#include "teal/core/Common.h"
+#include "teal/Event.h"
+#include "teal/Render.h"
 
 namespace Teal
 {
 	class RenderingContext;
+	class Event;
 	class TL_API Window
 	{
 	public:

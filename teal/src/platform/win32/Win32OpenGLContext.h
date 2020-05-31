@@ -1,6 +1,6 @@
 #pragma once
 
-#include "teal/render/RenderingContext.h"
+#include "teal/Render.h"
 #include <Windows.h>
 
 namespace Teal

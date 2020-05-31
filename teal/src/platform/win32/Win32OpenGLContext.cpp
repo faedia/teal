@@ -3,6 +3,8 @@
 #include <glad/glad_wgl.h>
 #include <glad/glad.h>
 
+#include <teal/core/Window.h>
+
 namespace Teal
 {
 	HMODULE libGl;

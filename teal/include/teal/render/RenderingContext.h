@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../core/Common.h"
-#include "../core/Window.h"
-#include "../Event.h"
+
+#include "teal/core/Common.h"
+#include "teal/core/Window.h"
+#include "teal/Event.h"
 
 namespace Teal
 {
