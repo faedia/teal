@@ -23,6 +23,13 @@ namespace Teal
 
 		inline int GetRepeatCount() const { return _RepeatCount; }
 
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << GetName() << " " << p_KeyCode << " Repeated(" << _RepeatCount << ")";
+			return ss.str();
+		}
+
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
 		int _RepeatCount;

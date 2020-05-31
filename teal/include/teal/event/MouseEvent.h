@@ -12,6 +12,13 @@ namespace Teal
 		float GetX() const { return _X; }
 		float GetY() const { return _Y; }
 
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << GetName() << " " << _X << "," << _Y;
+			return ss.str();
+		}
+
 		EVENT_CLASS_TYPE(MouseMoved)
 		EVENT_CLASS_CATEGORY(ECMouse | ECInput)
 	private:

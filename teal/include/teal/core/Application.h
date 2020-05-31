@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h"
+#include "Window.h"
 #include "teal/Event.h"
 
 namespace Teal 
@@ -14,6 +15,8 @@ namespace Teal
 		virtual void onEvent(Event& event);
 
 		void Run();
+	private:
+		std::unique_ptr<Window> _Window;
 	};
 
 	Application* CreateApplication();

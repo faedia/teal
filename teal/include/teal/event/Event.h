@@ -1,9 +1,11 @@
 #pragma once
 
 #include "../core/Common.h"
+#include <sstream>
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
-	virtual EventType GetEventType() const override { return GetStaticType(); }
+	virtual EventType GetEventType() const override { return GetStaticType(); }\
+	virtual std::string GetName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(c) virtual int GetCategoryFlags() const override { return EventCategory(c); }
 
@@ -12,7 +14,7 @@ namespace Teal
 	enum class EventType
 	{
 		None = 0,
-		WindowClose, WindowsResize, WindowFocus, WindowLostFocus, WindowMoved,
+		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
 		KeyPressed, KeyReleased,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
@@ -31,8 +33,8 @@ namespace Teal
 	class Event
 	{
 	public:
-		virtual EventType GetEventType() const = 0;
-		virtual int GetCategoryFlags() const = 0;
+		virtual EventType GetEventType() const { return EventType::None; };
+		virtual int GetCategoryFlags() const { return None; };
 
 		inline void handled() { p_Handled = true; }
 		inline void reset() { p_Handled = false; }
@@ -41,6 +43,10 @@ namespace Teal
 		{
 			return GetCategoryFlags() & c;
 		}
+
+		virtual std::string GetName() const { return "None"; };
+		virtual std::string ToString() const { return GetName(); };
+
 	protected:
 		bool p_Handled = false;
 	};

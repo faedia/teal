@@ -2,32 +2,39 @@
 #include "Win32Window.h"
 #include "Win32OpenGLContext.h"
 
-#include "teal/core/Logger.h"
-#include <gl/GL.h>
-
 namespace Teal
 {
 	Window::Window(const std::string& name)
 	{
-		_WindowData = new Win32Window(name);
+		_WindowData = new Win32Window(name, 1280, 720);
 		InitializeRenderingContext();
-
-		Logger::GetCoreLogger().Info((char*)glGetString(GL_VERSION));
 	}
 
 	Window::~Window()
 	{
-		delete ((Win32OpenGLContext*)_RenderingContext);
 		delete ((Win32Window*)_WindowData);
 	}
 
 	void Window::OnUpdate()
 	{
 		MSG msg;
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&msg);
+			int status = TranslateMessage(&msg);
+
 			DispatchMessage(&msg);
+			std::shared_ptr<Event> currentEventP = ((Win32Window*)_WindowData)->GetCurrentEvent();
+			if (currentEventP && currentEventP->GetEventType() != EventType::None)
+			{
+				if (currentEventP->GetEventType() == EventType::WindowResize)
+				{
+					_RenderingContext->OnResize(*(std::static_pointer_cast<WindowResizeEvent>(currentEventP)));
+				}
+
+				_EventCallback(*currentEventP);
+				((Win32Window*)_WindowData)->ResetEvent();
+			}
 		}
 
 		SwapBuffers(((Win32Window*)_WindowData)->GetHDC());
@@ -35,6 +42,17 @@ namespace Teal
 
 	void Window::InitializeRenderingContext()
 	{
-		_RenderingContext = new Win32OpenGLContext(this);
+		_RenderingContext = std::unique_ptr<Win32OpenGLContext>(new Win32OpenGLContext(this));
+	}
+
+
+	void Window::SetVSync(bool enabled)
+	{
+		_RenderingContext->SetVsync(enabled);
+	}
+
+	bool Window::VsyncEnabled()
+	{
+		return _RenderingContext->VsyncEnabled();
 	}
 }

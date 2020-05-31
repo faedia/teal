@@ -10,6 +10,9 @@ namespace Teal
 	public:
 		Win32OpenGLContext(Window* window);
 		~Win32OpenGLContext();
+
+		void OnResize(WindowResizeEvent& event) override;
+		void SetVsync(bool enabled) override;
 	private:
 		PIXELFORMATDESCRIPTOR _Pfd;
 		HGLRC _OpenGLCtx;

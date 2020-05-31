@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Common.h"
+#include "../Event.h"
 #include <string>
 #include <memory>
-#include <any>
+#include <functional>
 
 #include "../render/RenderingContext.h"
 
@@ -13,14 +14,16 @@ namespace Teal
 	class TL_API Window
 	{
 	public:
+		using EventCallback = std::function<void(Event&)>;
+
 		Window(const std::string& name);
 		~Window();
 		
 		unsigned int GetWidth() { return 0; };
 		unsigned int GetHeight() { return 0; };
 
-		void SetVSync(bool enabled) {};
-		bool VsyncEnabled() { return 0; };
+		void SetVSync(bool enabled);
+		bool VsyncEnabled();
 
 		void* GetWindowData() { return _WindowData; }
 
@@ -28,8 +31,11 @@ namespace Teal
 
 		void OnUpdate();
 
+		virtual inline void SetEventCallback(const EventCallback& callback) { _EventCallback = callback; };
+
 	private:
+		EventCallback _EventCallback;
 		void* _WindowData;
-		RenderingContext* _RenderingContext = nullptr;
+		std::unique_ptr<RenderingContext> _RenderingContext;
 	};
 }

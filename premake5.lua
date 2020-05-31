@@ -10,6 +10,8 @@ startproject "testbed"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+include "dep/glad"
+
 project "teal"
     location "teal"
     kind "SharedLib"
@@ -26,11 +28,13 @@ project "teal"
 
     includedirs {
         "%{prj.location}/include/",
-        "dep/spdlog/include"
+        "dep/spdlog/include",
+        "dep/glad/include"
     }
 
     links {
-        "opengl32"
+        "opengl32",
+        "glad"
     }
 
     postbuildcommands {
@@ -72,6 +76,7 @@ project "testbed"
     }
 
     includedirs {
+        "dep/spdlog/include",
         "teal/include"
     }
 

@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
 	Teal::Logger::Init();
 
-	Teal::Logger::GetCoreLogger().Trace("The engine has started!");
+	TL_CORE_TRACE("The engine has started!");
 
 	auto app = Teal::CreateApplication();
 	app->Run();
