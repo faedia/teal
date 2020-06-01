@@ -16,6 +16,7 @@ namespace Teal
 		virtual void OnResize(WindowResizeEvent& event) = 0;
 		virtual void SetVsync(bool enabled) = 0;
 		virtual inline bool VsyncEnabled() { return _Vsync; };
+		virtual void MakeCurrentContext() = 0;
 	protected:
 		Window* _Window;
 		bool _Vsync;

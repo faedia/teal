@@ -1,6 +1,8 @@
 #include "Win32Window.h"
-
 #include "Win32KeyCode.h"
+#include "imgui_impl_win32.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace Teal
 {
@@ -61,6 +63,8 @@ namespace Teal
 
 	LRESULT CALLBACK Win32Window::WindowProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
+		ImGui_ImplWin32_WndProcHandler(hwnd, msg, wp, lp);
+
 		Win32Window* w;
 		if (msg != WM_NCCREATE)
 			w = (Win32Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);

@@ -2,29 +2,24 @@
 
 #include "teal/core/Layer.h"
 #include "teal/Event.h"
+#include "teal/core/Application.h"
 
 namespace Teal {
+	class Application;
 	class TL_API ImGuiLayer : public Layer
 	{
 	public:
-		ImGuiLayer();
+		ImGuiLayer(Application* app);
 		~ImGuiLayer();
 
+		virtual void onEvent(Event& event) override;
 
 		void OnAttach();
 		void OnDetach();
-		void OnUpdate() override;
-		void onEvent(Event& event) override;
 
-		bool onKeyTyped(KeyTypedEvent& event);
-		bool onKeyPressed(KeyPressedEvent& event);
-		bool onKeyReleased(KeyReleasedEvent& event);
-		bool onMouseButtonPressed(MouseButtonPressedEvent& event);
-		bool onMouseButtonReleased(MouseButtonReleasedEvent& event);
-		bool onMouseScrolled(MouseScrolledEvent& event);
-		bool onMouseMoved(MouseMovedEvent& event);
-		bool onWindowResize(WindowResizeEvent& event);
+		void Begin();
+		void End();
 	private:
-
+		Application* _App;
 	};
 }

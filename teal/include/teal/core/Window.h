@@ -22,6 +22,8 @@ namespace Teal
 		void SetVSync(bool enabled);
 		bool VsyncEnabled();
 
+		std::unique_ptr<RenderingContext>& GetRenderingContext() { return _RenderingContext; }
+
 		void* GetWindowData() { return _WindowData; }
 
 		void InitializeRenderingContext();

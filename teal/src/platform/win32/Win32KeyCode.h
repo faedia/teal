@@ -129,7 +129,6 @@ static int ConvCode(int code)
 	case VK_OEM_5: return TL_KB_BACKSLASH;
 	case VK_OEM_6: return TL_KB_RIGHT_BRACKET;
 	case VK_OEM_7: return TL_KB_APOSTROPHE;
-	default:
-		return TK_KB_UNKNOWN;
+	default: return TK_KB_UNKNOWN;
 	}
 }

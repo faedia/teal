@@ -8,7 +8,6 @@ public:
 	Testbed()
 	{
 		ClientLogger.Trace("The app has started!");
-		PushLayer(Teal::LayerStack::StackObj(new Teal::ImGuiLayer()));
 	}
 
 	~Testbed()

@@ -13,6 +13,8 @@ namespace Teal
 
 		void OnResize(WindowResizeEvent& event) override;
 		void SetVsync(bool enabled) override;
+
+		virtual void MakeCurrentContext() override;
 	private:
 		PIXELFORMATDESCRIPTOR _Pfd;
 		HGLRC _OpenGLCtx;
