@@ -8,6 +8,7 @@ public:
 	Testbed()
 	{
 		ClientLogger.Trace("The app has started!");
+		p_Window->SetVSync(false);
 	}
 
 	~Testbed()

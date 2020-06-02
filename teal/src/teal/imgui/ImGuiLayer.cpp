@@ -70,8 +70,6 @@ namespace Teal
 
 	void ImGuiLayer::End()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

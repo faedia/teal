@@ -1,9 +1,10 @@
+#include "OpenGLShader.h"
 #include "OpenGLContext.h"
 #include "teal/core/Logger.h"
 
 namespace Teal
 {
-	OpenGLShader::OpenGLShader(std::string vstr, std::string fstr) : Shader(vstr, fstr)
+	OpenGLShader::OpenGLShader(const std::string& vstr, const std::string& fstr) : Shader(vstr, fstr)
 	{
 		GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
 		CompileShader(vshader, _Vstr);
@@ -35,6 +36,11 @@ namespace Teal
 
 		glDetachShader(_Program, vshader);
 		glDetachShader(_Program, fshader);
+	}
+
+	OpenGLShader::~OpenGLShader()
+	{
+		glDeleteProgram(_Program);
 	}
 
 	void OpenGLShader::Bind()

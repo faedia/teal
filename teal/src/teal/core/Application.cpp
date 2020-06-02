@@ -1,6 +1,7 @@
 #include "teal/core/Application.h"
 #include "teal/core/Window.h"
 #include "teal/render/Shader.h"
+#include "teal/render/Buffer.h"
 #include <glad/glad.h>
 #include <imgui.h>
 
@@ -42,30 +43,26 @@ namespace Teal
 	{
 		p_Running = true;
 
-		GLuint vaId;
 		GLfloat vertex_buffer_data[] =
 		{
 			-0.5f, -0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f
 		};
-		GLuint vbId;
-		GLuint ibId;
+		unsigned int indices[] = { 0, 1, 2 };
+		std::shared_ptr<Buffers::Vertex> vb = p_Window->GetRenderingContext()->NewVertexBuffer(vertex_buffer_data, sizeof(vertex_buffer_data));
+		std::shared_ptr<Buffers::Index> ib = p_Window->GetRenderingContext()->NewIndexBuffer(indices, 3);
+
+		GLuint vaId;
 		glGenVertexArrays(1, &vaId);
 		glBindVertexArray(vaId);
-		glGenBuffers(1, &vbId);
-		glBindBuffer(GL_ARRAY_BUFFER, vbId);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
 
+		vb->Bind();
+		ib->Bind();
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		glGenBuffers(1, &ibId);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibId);
-
-		unsigned int indices[] = { 0, 1, 2 };
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		std::string vsrc;
 		std::string fsrc;
@@ -73,17 +70,20 @@ namespace Teal
 		vsrc = R"(
 			#version 410 core
 			layout(location=0) in vec3 position;
+			out vec3 v_pos;
 			void main()
 			{
+				v_pos = position;
 				gl_Position = vec4(position, 1.0);
 			}
 		)";
 		fsrc = R"(
 			#version 410 core
+			in vec3 v_pos;
 			out vec4 color;
 			void main()
 			{
-				color = vec4(1.0, 0.0, 0.0, 1.0);
+				color = vec4(v_pos * 0.5 + 0.5, 1.0);
 			}
 		)";
 
@@ -92,10 +92,10 @@ namespace Teal
 
 		while (p_Running)
 		{
-			glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			glBindVertexArray(vaId);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, ib->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (auto layer : p_LayerStack)
 				layer->OnUpdate();

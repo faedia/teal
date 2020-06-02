@@ -9,8 +9,8 @@ namespace Teal
 	class OpenGLShader : public Shader
 	{
 	public:
-		OpenGLShader(std::string vstr, std::string fstr);
-
+		OpenGLShader(const std::string& vstr, const std::string& fstr);
+		virtual ~OpenGLShader() override;
 		virtual void Bind() override;
 		
 		void CompileShader(GLint shader, std::string str);

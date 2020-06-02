@@ -2,7 +2,6 @@
 
 #include "teal/render/RenderingContext.h"
 #include "teal/event/Event.h"
-#include "OpenGLShader.h"
 
 #include <glad/glad.h>
 
@@ -17,7 +16,10 @@ namespace Teal
 			glViewport(0, 0, event.GetWidth(), event.GetHeight());
 		}
 
-		virtual std::shared_ptr<Shader> NewShader(std::string vstr, std::string fstr) override { return std::make_shared<OpenGLShader>(OpenGLShader(vstr, fstr)); }
+		virtual std::shared_ptr<Shader> NewShader(const std::string& vstr, const std::string& fstr) override;
+		virtual std::shared_ptr<Shader> NewShader(const std::string& file) override;
+		virtual std::shared_ptr<Buffers::Vertex> NewVertexBuffer(float* vertices, unsigned int size) override;
+		virtual std::shared_ptr<Buffers::Index> NewIndexBuffer(unsigned int* vertices, unsigned int count) override;
 	private:
 	};
 }
