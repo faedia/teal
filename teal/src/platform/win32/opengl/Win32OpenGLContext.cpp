@@ -9,7 +9,7 @@
 
 namespace Teal
 {
-	Win32OpenGLContext::Win32OpenGLContext(Window* window) : RenderingContext(window)
+	Win32OpenGLContext::Win32OpenGLContext(Window* window) : OpenGLContext(window)
 	{
 		Win32Window* windowP = INTWINDOW(_Window);
 		_Pfd =
@@ -73,11 +73,6 @@ namespace Teal
 	{
 		wglMakeCurrent(NULL, NULL);
 		wglDeleteContext(_OpenGLCtx);
-	}
-
-	void Win32OpenGLContext::OnResize(WindowResizeEvent& event)
-	{
-		glViewport(0, 0, event.GetWidth(), event.GetHeight());
 	}
 	
 	void Win32OpenGLContext::SetVsync(bool enabled)

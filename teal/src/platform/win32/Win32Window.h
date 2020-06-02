@@ -2,7 +2,7 @@
 
 #include <string>
 #include <Windows.h>
-#include <teal/Event.h>
+#include "teal/Event.h"
 #include <queue>
 
 namespace Teal

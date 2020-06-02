@@ -2,12 +2,11 @@
 
 #include "teal/core/Common.h"
 #include "teal/Event.h"
-#include "teal/Render.h"
+#include "teal/render/RenderingContext.h"
 
 namespace Teal
 {
 	class RenderingContext;
-	class Event;
 	class TL_API Window
 	{
 	public:

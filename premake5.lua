@@ -15,7 +15,7 @@ include "dep/imgui"
 
 project "teal"
     location "teal"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -31,6 +31,7 @@ project "teal"
 
     includedirs {
         "%{prj.location}/include/",
+        "%{prj.location}/src/",
         "dep/spdlog/include",
         "dep/glad/include",
         "dep/imgui"
@@ -42,16 +43,11 @@ project "teal"
         "imgui"
     }
 
-    postbuildcommands {
-        ("{COPY} ../bin/" .. outputdir .. "/teal/ ../bin/" .. outputdir .. "/testbed/")
-    }
-
     filter "system:windows"
         cppdialect "C++17"
         systemversion "latest"
         defines {
-            "TL_WIN32",
-            "TL_DLL"
+            "TL_WIN32"
         }
         characterset ("ASCII")
         files {

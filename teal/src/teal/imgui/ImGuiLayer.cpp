@@ -1,9 +1,9 @@
 #include "teal/imgui/ImGuiLayer.h"
 #include <imgui.h>
-#include "../../platform/opengl/imgui_impl_opengl3.h"
+#include "platform/opengl/imgui_impl_opengl3.h"
 #ifdef TL_WIN32
-#include "../../platform/win32/imgui_impl_win32.h"
-#include "../../platform/win32/Win32Window.h"
+#include "platform/win32/imgui_impl_win32.h"
+#include "platform/win32/Win32Window.h"
 #else
 #error only windows is supported
 #endif

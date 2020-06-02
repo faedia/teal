@@ -94,14 +94,14 @@ namespace Teal
 				return TRUE;
 			}
 
-			int kc = wp;
+			int kc = (int)wp;
 			w->_EventQueue.push(std::make_shared<KeyTypedEvent>(KeyTypedEvent(kc)));
 			break;
 		}
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
-			int kc = wp;
+			int kc = (int)wp;
 			int rc = LOWORD(lp) - 1 + (BIT(30) & lp) ? 1 : 0;
 			w->_EventQueue.push(std::make_shared<KeyPressedEvent>(KeyPressedEvent(ConvCode(kc), rc)));
 			break;
@@ -109,7 +109,7 @@ namespace Teal
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
-			int kc = wp;
+			int kc = (int)wp;
 			w->_EventQueue.push(std::make_shared<KeyReleasedEvent>(KeyReleasedEvent(ConvCode(kc))));
 			break;
 		}
@@ -146,7 +146,7 @@ namespace Teal
 					POINT p;
 					GetCursorPos(&p);
 					ScreenToClient(hwnd, &p);
-					w->_EventQueue.push(std::make_shared<MouseMovedEvent>(MouseMovedEvent(p.x, p.y, w->_AbsoluteX + dx, w->_AbsoluteY + dy)));
+					w->_EventQueue.push(std::make_shared<MouseMovedEvent>(MouseMovedEvent((float)p.x, (float)p.y, (float)w->_AbsoluteX + (float)dx, (float)w->_AbsoluteY + (float)dy)));
 					w->_AbsoluteX += dx;
 					w->_AbsoluteY += dy;
 				}

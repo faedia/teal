@@ -3,7 +3,9 @@
 
 #include "teal/core/Common.h"
 #include "teal/core/Window.h"
-#include "teal/Event.h"
+#include "teal/event/AppEvent.h"
+#include "Shader.h"
+#include <memory>
 
 namespace Teal
 {
@@ -17,6 +19,7 @@ namespace Teal
 		virtual void SetVsync(bool enabled) = 0;
 		virtual inline bool VsyncEnabled() { return _Vsync; };
 		virtual void MakeCurrentContext() = 0;
+		virtual std::shared_ptr<Shader> NewShader(std::string vstr, std::string fstr) = 0;
 	protected:
 		Window* _Window;
 		bool _Vsync;
