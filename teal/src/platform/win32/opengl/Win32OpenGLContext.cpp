@@ -67,6 +67,8 @@ namespace Teal
 		TL_CORE_INFO((char*)glGetString(GL_VERSION));
 
 		wglSwapIntervalEXT(_Vsync);
+
+		SetDbgMsg();
 	}
 
 	Win32OpenGLContext::~Win32OpenGLContext()

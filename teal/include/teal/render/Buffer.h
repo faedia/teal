@@ -11,13 +11,14 @@ namespace Teal
 		class LayoutElem
 		{
 		public:
-			LayoutElem(const Shader::Types& type, const std::string& name, bool normalised = false)
+			LayoutElem(const Shader::Types& type, const std::string& name, const bool& normalised = false)
 				: _Type(type), _Name(name), _Size(Shader::TypeSize(type)), _Normalized(normalised) {}
 
-			const Shader::Types& GetType() { return _Type; }
-			const std::string& GetName() { return _Name; }
-			const unsigned int& GetSize() { return _Size; }
-			const unsigned int& GetOffset() { return _Offset; }
+			const Shader::Types& GetType() const { return _Type; }
+			const std::string& GetName() const { return _Name; }
+			const unsigned int& GetSize() const { return _Size; }
+			const unsigned int& GetOffset() const { return _Offset; }
+			const bool& GetNormalized() const { return _Normalized; }
 
 			void SetOffset(const unsigned int& offset) { _Offset = offset; }
 		private:
@@ -35,6 +36,13 @@ namespace Teal
 			{
 				DoOffsetStride();
 			}
+			std::vector<LayoutElem>::iterator begin() { return _Elems.begin(); }
+			std::vector<LayoutElem>::iterator end() { return _Elems.end(); }
+			std::vector<LayoutElem>::const_iterator begin() const { return _Elems.begin(); }
+			std::vector<LayoutElem>::const_iterator end() const { return _Elems.end(); }
+
+			const unsigned int& GetStride() const { return _Stride; }
+
 		private:
 			void DoOffsetStride()
 			{
@@ -53,9 +61,14 @@ namespace Teal
 		class Vertex
 		{
 		public:
+			Vertex(const Buffers::Layout& layout) : p_Layout(layout) {}
 			virtual ~Vertex() = default;
 
+			const Buffers::Layout& GetLayout() { return p_Layout; }
+
 			virtual void Bind() = 0;
+		protected:
+			Buffers::Layout p_Layout;
 		};
 
 		class Index

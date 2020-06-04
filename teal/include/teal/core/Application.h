@@ -18,8 +18,8 @@ namespace Teal
 
 		virtual void onEvent(Event& event);
 
-		void PushLayer(LayerStack::StackObj layer);
-		void PushOverlay(LayerStack::StackObj layer);
+		void PushLayer(const LayerStack::StackObj& layer);
+		void PushOverlay(const LayerStack::StackObj& layer);
 
 		std::unique_ptr<Window>& GetWindow() { return p_Window; }
 

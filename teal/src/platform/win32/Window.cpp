@@ -52,7 +52,7 @@ namespace Teal
 		_RenderingContext->SetVsync(enabled);
 	}
 
-	bool Window::VsyncEnabled()
+	bool Window::VsyncEnabled() const
 	{
 		return _RenderingContext->VsyncEnabled();
 	}

@@ -10,7 +10,7 @@ namespace Teal
 		class OpenGLVertex : public Vertex
 		{
 		public:
-			OpenGLVertex(float* vertices, unsigned int size)
+			OpenGLVertex(float* vertices, const unsigned int& size, const Buffers::Layout& layout) : Vertex(layout)
 			{
 				glCreateBuffers(1, &_BufferId);
 				glBindBuffer(GL_ARRAY_BUFFER, _BufferId);
@@ -33,7 +33,7 @@ namespace Teal
 		class OpenGLIndex : public Index
 		{
 		public:			
-			OpenGLIndex(unsigned int* indices, unsigned int count) : _Count(count)
+			OpenGLIndex(unsigned int* indices, const unsigned int& count) : _Count(count)
 			{
 				glCreateBuffers(1, &_BufferId);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _BufferId);

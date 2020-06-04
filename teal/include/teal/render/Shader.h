@@ -15,7 +15,7 @@ namespace Teal
 			Float, Float2, Float3, Float4
 		};
 
-		Shader(std::string vstr, std::string fstr) : _Vstr(vstr), _Fstr(fstr) {}
+		Shader(const std::string& vstr, const std::string& fstr) : _Vstr(vstr), _Fstr(fstr) {}
 		virtual ~Shader() = default;
 		virtual void Bind() = 0;
 

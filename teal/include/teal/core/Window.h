@@ -15,15 +15,15 @@ namespace Teal
 		Window(const std::string& name);
 		~Window();
 		
-		unsigned int GetWidth() { return 0; };
-		unsigned int GetHeight() { return 0; };
+		unsigned int GetWidth() const { return 0; };
+		unsigned int GetHeight() const { return 0; };
 
 		void SetVSync(bool enabled);
-		bool VsyncEnabled();
+		bool VsyncEnabled() const;
 
 		std::unique_ptr<RenderingContext>& GetRenderingContext() { return _RenderingContext; }
 
-		void* GetWindowData() { return _WindowData; }
+		void* GetWindowData() const { return _WindowData; }
 
 		void InitializeRenderingContext();
 

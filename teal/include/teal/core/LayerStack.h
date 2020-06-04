@@ -14,10 +14,10 @@ namespace Teal
 		LayerStack() : _LayerInsert(_Layers.begin()) {}
 		~LayerStack();
 
-		void PushLayer(StackObj layer);
-		void PushOverlay(StackObj layer);
-		void PopLayer(StackObj layer);
-		void PopOverlay(StackObj layer);
+		void PushLayer(const StackObj& layer);
+		void PushOverlay(const StackObj& layer);
+		void PopLayer(const StackObj& layer);
+		void PopOverlay(const StackObj& layer);
 
 		Stack::iterator begin() { return _Layers.begin(); }
 		Stack::iterator end() { return _Layers.end(); }
