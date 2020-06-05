@@ -3,6 +3,7 @@
 #include "teal/core/Common.h"
 #include "teal/Event.h"
 #include "teal/render/RenderingContext.h"
+#include "teal/render/Renderer.h"
 
 namespace Teal
 {
@@ -21,9 +22,10 @@ namespace Teal
 		void SetVSync(bool enabled);
 		bool VsyncEnabled() const;
 
-		std::unique_ptr<RenderingContext>& GetRenderingContext() { return _RenderingContext; }
+		inline std::unique_ptr<RenderingContext>& GetRenderingContext() { return _RenderingContext; }
+		inline std::unique_ptr<Renderer>& GetRenderer() { return _Renderer; }
 
-		void* GetWindowData() const { return _WindowData; }
+		inline void* GetWindowData() const { return _WindowData; }
 
 		void InitializeRenderingContext();
 
@@ -35,5 +37,6 @@ namespace Teal
 		EventCallback _EventCallback;
 		void* _WindowData;
 		std::unique_ptr<RenderingContext> _RenderingContext;
+		std::unique_ptr<Renderer> _Renderer;
 	};
 }

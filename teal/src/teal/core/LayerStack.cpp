@@ -11,16 +11,16 @@ namespace Teal
 		}
 	}
 
-	void LayerStack::PushLayer(const StackObj& layer)
+	void LayerStack::PushLayer(const StackObj& layer, Renderer& renderer)
 	{
-		_LayerInsert = _Layers.emplace(_LayerInsert, layer);
-		layer->OnAttach();
+		_Layers.emplace(_Layers.begin() + _LayerInsert++, layer);
+		layer->OnAttach(renderer);
 	}
 
-	void LayerStack::PushOverlay(const StackObj& layer)
+	void LayerStack::PushOverlay(const StackObj& layer, Renderer& renderer)
 	{
 		_Layers.emplace_back(layer);
-		layer->OnAttach();
+		layer->OnAttach(renderer);
 	}
 
 	void LayerStack::PopLayer(const StackObj& layer)
@@ -36,7 +36,7 @@ namespace Teal
 
 	void LayerStack::PopOverlay(const StackObj& layer)
 	{
-		auto it = std::find(_LayerInsert, _Layers.end(), layer);
+		auto it = std::find(_Layers.begin()+ _LayerInsert, _Layers.end(), layer);
 		if (it != _Layers.end())
 			_Layers.erase(it);
 		layer->OnDetach();

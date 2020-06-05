@@ -2,6 +2,7 @@
 
 #include "teal/core/Common.h"
 #include "teal/Event.h"
+#include "teal/render/Renderer.h"
 
 namespace Teal
 {
@@ -11,9 +12,9 @@ namespace Teal
 		Layer(const std::string& name) : p_Name(name) {};
 		virtual ~Layer() = default;
 
-		virtual void OnAttach() {}
+		virtual void OnAttach(Renderer& renderer) {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Renderer& renderer) {}
 
 		inline const std::string& GetName() const { return p_Name; }
 	protected:

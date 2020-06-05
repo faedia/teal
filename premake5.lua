@@ -16,6 +16,7 @@ include "dep/imgui"
 project "teal"
     location "teal"
     kind "StaticLib"
+    staticruntime "On"
     language "C++"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -67,6 +68,7 @@ project "testbed"
     location "testbed"
     kind "ConsoleApp"
     language "C++"
+    staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("obj/" .. outputdir .. "/%{prj.name}")

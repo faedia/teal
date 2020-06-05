@@ -12,6 +12,7 @@ namespace Teal
 		OpenGLShader(const std::string& vstr, const std::string& fstr);
 		virtual ~OpenGLShader() override;
 		virtual void Bind() override;
+		virtual void UploadUniformMat4(const std::string& name, const Math::Mat4f& mat) override;
 		
 		void CompileShader(GLint shader, std::string str);
 	private:

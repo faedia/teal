@@ -68,7 +68,7 @@ namespace Teal
 
 		wglSwapIntervalEXT(_Vsync);
 
-		SetDbgMsg();
+		EnableDbgMsg();
 	}
 
 	Win32OpenGLContext::~Win32OpenGLContext()

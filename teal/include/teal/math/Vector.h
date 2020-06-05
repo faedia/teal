@@ -13,31 +13,32 @@ namespace Teal
 {
 	namespace Math
 	{
+
 		template<typename T, unsigned int S>
-		class Vector
+		class Vector;
+
+		template<typename T>
+		class Vector<T, 4>
 		{
 		public:
-			std::array<T, S> data;
-			Vector(const T d[S])
+			union
 			{
-				for (int i = 0; i < S; ++i)
-					data[i] = d[i];
-			}
+				struct { T x, y, z, w; };
+				struct { T r, g, b, a; };
+				T data[4];
+			};
+		};
 
-			Vector(const std::array<T, S>& d)
+		template<typename T>
+		class Vector<T, 3>
+		{
+		public:
+			union
 			{
-				data = d;
-			}
-
-			Vector(std::array<T, S>&& d)
-			{
-				data = std::move(d);
-			}
-
-			Vector<T, S> dot(Vector<T, S> const& a, Vector<T, S> const& b)
-			{
-				return a;
-			}
+				struct { T x, y, z; };
+				struct { T r, g, b; };
+				T data[3];
+			};
 		};
 	}
 }

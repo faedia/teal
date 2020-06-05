@@ -1,6 +1,7 @@
 #include "teal/Core.h"
 #include "Win32Window.h"
 #include "opengl/Win32OpenGLContext.h"
+#include "platform/opengl/OpenGLRenderer.h"
 #include <dwmapi.h>
 #include <queue>
 
@@ -44,6 +45,7 @@ namespace Teal
 	void Window::InitializeRenderingContext()
 	{
 		_RenderingContext = std::unique_ptr<Win32OpenGLContext>(new Win32OpenGLContext(this));
+		_Renderer = std::unique_ptr<OpenGLRenderer>(new OpenGLRenderer());
 	}
 
 

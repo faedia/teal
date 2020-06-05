@@ -6,7 +6,6 @@
 #include "teal/imgui/ImGuiLayer.h"
 #include "teal/Event.h"
 
-
 namespace Teal 
 {
 	class ImGuiLayer;
@@ -14,9 +13,11 @@ namespace Teal
 	{
 	public:
 		Application();
-		~Application();
+		virtual ~Application() = default;
 
 		virtual void onEvent(Event& event);
+
+		virtual void OnRender() = 0;
 
 		void PushLayer(const LayerStack::StackObj& layer);
 		void PushOverlay(const LayerStack::StackObj& layer);

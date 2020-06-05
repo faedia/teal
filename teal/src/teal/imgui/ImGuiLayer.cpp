@@ -24,7 +24,7 @@ namespace Teal
 
 	}
 
-	void ImGuiLayer::OnAttach()
+	void ImGuiLayer::OnAttach(Renderer& renderer)
 	{
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
@@ -45,7 +45,7 @@ namespace Teal
 #endif
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
-	void ImGuiLayer::OnDetach()
+	void ImGuiLayer::OnDetach(Renderer& renderer)
 {
 #ifdef TL_WIN32
 		ImGui_ImplWin32_Shutdown();

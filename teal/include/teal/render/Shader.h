@@ -2,6 +2,7 @@
 
 #include <string>
 #include "teal/core/Logger.h"
+#include "teal/math/Matrix.h"
 
 namespace Teal
 {
@@ -18,8 +19,9 @@ namespace Teal
 		Shader(const std::string& vstr, const std::string& fstr) : _Vstr(vstr), _Fstr(fstr) {}
 		virtual ~Shader() = default;
 		virtual void Bind() = 0;
+		virtual void UploadUniformMat4(const std::string& name, const Math::Mat4f& mat) = 0;
 
-		static unsigned int TypeSize(Types type)
+		static inline unsigned int TypeSize(Types type)
 		{
 			switch (type)
 			{

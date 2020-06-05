@@ -48,6 +48,12 @@ namespace Teal
 		glUseProgram(_Program);
 	}
 
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const Math::Mat4f& mat)
+	{
+		GLuint loc = glGetUniformLocation(_Program, name.c_str());
+		glUniformMatrix4fv(loc, 1, GL_TRUE, (GLfloat*)mat.data);
+	}
+
 	void OpenGLShader::CompileShader(GLint shader, std::string str)
 	{
 		const GLchar* src = (const GLchar*)str.c_str();
