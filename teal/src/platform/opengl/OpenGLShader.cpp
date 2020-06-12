@@ -2,40 +2,44 @@
 #include "OpenGLContext.h"
 #include "teal/core/Logger.h"
 
+#include <fstream>
+#include <streambuf>
+
 namespace Teal
 {
-	OpenGLShader::OpenGLShader(const std::string& vstr, const std::string& fstr) : Shader(vstr, fstr)
+	static GLenum TypeStrToEnum(const std::string& type)
 	{
-		GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
-		CompileShader(vshader, _Vstr);
+		if (type == "vertex")
+			return GL_VERTEX_SHADER;
+		else if (type == "pixel")
+			return GL_FRAGMENT_SHADER;
 
-		GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
-		CompileShader(fshader, _Fstr);
+		TL_ASSERT(false, "Expected know shader type");
+	}
 
-		_Program = glCreateProgram();
-		glAttachShader(_Program, vshader);
-		glAttachShader(_Program, fshader);
+	OpenGLShader::OpenGLShader(const std::string& vstr, const std::string& fstr)
+	{
+		GLuint vshader = CompileShader(GL_VERTEX_SHADER, vstr);
+		GLuint fshader = CompileShader(GL_FRAGMENT_SHADER, fstr);
+		_Program = LinkShader({ vshader, fshader });
+	}
 
-		glLinkProgram(_Program);
-		GLint link_status;
-		glGetProgramiv(_Program, GL_LINK_STATUS, &link_status);
-		if (link_status == GL_FALSE)
-		{
-			GLint log_length;
-			glGetProgramiv(_Program, GL_INFO_LOG_LENGTH, &log_length);
-			std::vector<GLchar> info_log_string(log_length);
-			glGetProgramInfoLog(_Program, log_length, &log_length, &info_log_string[0]);
-			TL_CORE_ERROR("{0}", info_log_string.data());
-			TL_ASSERT(false, "Failed to link shader program!");
+	OpenGLShader::OpenGLShader(const std::string& file)
+	{
+		std::ifstream f(file);
+		std::string src;
 
-			glDeleteProgram(_Program);
-			glDeleteShader(vshader);
-			glDeleteShader(fshader);
-			return;
-		}
+		f.seekg(0, std::ios::end);
+		src.reserve(f.tellg());
+		f.seekg(0, std::ios::beg);
+		src.assign(std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>());
 
-		glDetachShader(_Program, vshader);
-		glDetachShader(_Program, fshader);
+		auto map = Preprocess(src);
+		std::vector<GLuint> shaders;
+		for (auto item : map)
+			shaders.push_back(CompileShader(item.first, item.second));
+
+		_Program = LinkShader(shaders);
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -54,9 +58,32 @@ namespace Teal
 		glUniformMatrix4fv(loc, 1, GL_TRUE, (GLfloat*)mat.data);
 	}
 
-	void OpenGLShader::CompileShader(GLint shader, std::string str)
+	std::unordered_map<GLenum, std::string> OpenGLShader::Preprocess(const std::string& src)
+	{
+		std::unordered_map<GLenum, std::string> map;
+
+		const std::string TokType = "#type";
+		size_t pos = src.find(TokType, 0);
+		while (pos != std::string::npos)
+		{
+			pos += TokType.length();
+			pos = src.find_first_not_of(" ", pos);
+			size_t end = src.find_first_not_of("abcdefghijklmnopqrstuvwxyz", pos);
+			std::string type = src.substr(pos, end - pos);
+			pos = src.find_first_not_of(" \r\n\t", end);
+			end = src.find(TokType, pos);
+			std::string subsrc = src.substr(pos, end - pos);
+			map[TypeStrToEnum(type)] = subsrc;
+			pos = end;
+		}
+
+		return map;
+	}
+
+	GLuint OpenGLShader::CompileShader(GLenum type, const std::string& str)
 	{
 		const GLchar* src = (const GLchar*)str.c_str();
+		GLuint shader = glCreateShader(type);
 
 		glShaderSource(shader, 1, &src, nullptr);
 		glCompileShader(shader);
@@ -70,8 +97,40 @@ namespace Teal
 			std::vector<GLchar> info_log_string(log_length);
 			glGetShaderInfoLog(shader, log_length, &log_length, &info_log_string[0]);
 			TL_CORE_ERROR("{0}", info_log_string.data());
-			TL_ASSERT(false, "Failed to compile shader!");
+			TL_ASSERT(false, "Expected successful compilation");
+			return 0;
 		}
+		return shader;
+	}
+
+	GLuint OpenGLShader::LinkShader(const std::vector<GLuint>& shaders)
+	{
+		GLuint program = glCreateProgram();
+		for (auto shader : shaders)
+			glAttachShader(program, shader);
+
+		glLinkProgram(program);
+		GLint link_status;
+		glGetProgramiv(program, GL_LINK_STATUS, &link_status);
+		if (link_status == GL_FALSE)
+		{
+			GLint log_length;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
+			std::vector<GLchar> info_log_string(log_length);
+			glGetProgramInfoLog(program, log_length, &log_length, &info_log_string[0]);
+			TL_CORE_ERROR("{0}", info_log_string.data());
+			TL_ASSERT(false, "Expected successful shader link");
+
+			glDeleteProgram(program);
+			for (auto shader : shaders)
+				glDeleteShader(shader);
+			return 0;
+		}
+
+		for (auto shader : shaders)
+			glDetachShader(program, shader);
+
+		return program;
 	}
 
 }

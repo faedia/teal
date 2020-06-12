@@ -3,6 +3,7 @@
 #include "teal/core/Common.h"
 #include "teal/Event.h"
 #include "teal/render/Renderer.h"
+#include "Time.h"
 
 namespace Teal
 {
@@ -14,7 +15,7 @@ namespace Teal
 
 		virtual void OnAttach(Renderer& renderer) {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate(Renderer& renderer) {}
+		virtual void OnUpdate(const DeltaTime& dt, Renderer& renderer) {}
 
 		inline const std::string& GetName() const { return p_Name; }
 	protected:

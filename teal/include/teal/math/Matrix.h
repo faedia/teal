@@ -1,9 +1,8 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
 #include "Vector.h"
 #include <cmath>
-
-#define M_PI 3.14159265358979323846
 
 namespace Teal
 {
@@ -40,7 +39,7 @@ namespace Teal
 
 			union
 			{
-				struct { Vector<T, 4> x1, x2, x3, x4; };
+				struct { T x1[4], x2[4], x3[4], x[4]; };
 				struct {
 					T
 						x11, x12, x13, x14,

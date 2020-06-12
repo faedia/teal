@@ -2,6 +2,7 @@
 #include "Win32Window.h"
 #include "opengl/Win32OpenGLContext.h"
 #include "platform/opengl/OpenGLRenderer.h"
+#include "Win32Time.h"
 #include <dwmapi.h>
 #include <queue>
 
@@ -10,6 +11,7 @@ namespace Teal
 	Window::Window(const std::string& name)
 	{
 		_WindowData = new Win32Window(name, 1280, 720);
+		_DeltaTime = std::make_shared<Win32DeltaTime>(Win32DeltaTime());
 		InitializeRenderingContext();
 	}
 

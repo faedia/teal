@@ -3,6 +3,7 @@
 #include "teal/render/Shader.h"
 #include "teal/render/Buffer.h"
 #include <imgui.h>
+#include <deque>
 
 namespace Teal 
 {
@@ -15,6 +16,9 @@ namespace Teal
 
 	void Application::onEvent(Event& event)
 	{
+		if (event.GetEventType() == EventType::WindowClose)
+			p_Running = false;
+
 		for (auto it = p_LayerStack.end(); it != p_LayerStack.begin();)
 		{
 			if (event.IsHandled())
@@ -37,19 +41,29 @@ namespace Teal
 	{
 		p_Running = true;
 
+		std::deque<double> times;
+
 		while (p_Running)
 		{
+			p_Window->OnUpdate();
+			p_Window->GetDeltaTime()->CalculateDelta();
 			p_Window->GetRenderer()->Begin();
 			OnRender();
-			p_Window->GetRenderer()->End();
 			for (auto layer : p_LayerStack)
-				layer->OnUpdate(*p_Window->GetRenderer().get());
+				layer->OnUpdate(*p_Window->GetDeltaTime(), *p_Window->GetRenderer().get());
+			p_Window->GetRenderer()->End();
 
 			p_ImGuiLayer->Begin();
-			ImGui::Text("Hello %s", "world");
+			if (times.size() == 50)
+				times.pop_front();
+			double ti = p_Window->GetDeltaTime()->GetSeconds();
+			times.push_back(ti);
+			double avg = 0;
+			for (auto t : times)
+				avg += t;
+			ImGui::Text("Fps: %d", (int)round(1/(avg/times.size())));
 			p_ImGuiLayer->End();
 
-			p_Window->OnUpdate();
 		}
 	}
 }

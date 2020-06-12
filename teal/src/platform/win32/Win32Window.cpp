@@ -76,13 +76,18 @@ namespace Teal
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(w));
 			DefWindowProc(hwnd, msg, wp, lp);
 			break;
+		case WM_CLOSE:
+		{
+			w->_EventQueue.push(std::make_shared<WindowCloseEvent>(WindowCloseEvent()));
+			break;
+		}
 		case WM_SIZE:
 		{
 			int width = LOWORD(lp);
 			int height = HIWORD(lp);
 			w->_Width = width;
 			w->_Height = height;
-			w->_EventQueue.push(std::make_shared< WindowResizeEvent>(WindowResizeEvent(width, height)));
+			w->_EventQueue.push(std::make_shared<WindowResizeEvent>(WindowResizeEvent(width, height)));
 			break;
 		}
 		case WM_SYSCHAR:

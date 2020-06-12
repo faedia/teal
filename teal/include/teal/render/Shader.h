@@ -16,7 +16,6 @@ namespace Teal
 			Float, Float2, Float3, Float4
 		};
 
-		Shader(const std::string& vstr, const std::string& fstr) : _Vstr(vstr), _Fstr(fstr) {}
 		virtual ~Shader() = default;
 		virtual void Bind() = 0;
 		virtual void UploadUniformMat4(const std::string& name, const Math::Mat4f& mat) = 0;
@@ -34,7 +33,5 @@ namespace Teal
 				TL_ASSERT (false, "Expected Valid Shader Data Type");
 			}
 		}
-	protected:
-		std::string _Vstr, _Fstr;
 	};
 }

@@ -25,6 +25,15 @@ namespace Teal
 		unsigned int _Width, _Height;
 	};
 
+	class WindowCloseEvent : public Event
+	{
+	public:
+		WindowCloseEvent() {}
+
+		EVENT_CLASS_TYPE(WindowClose)
+		EVENT_CLASS_CATEGORY(ECApp)
+	};
+
 	class AppTickEvent : public Event
 	{
 	public:

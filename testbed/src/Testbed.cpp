@@ -1,6 +1,7 @@
 #include <Teal.h>
 
 Teal::Logger ClientLogger = Teal::Logger("App");
+class Testbed;
 
 class TestLayer : public Teal::Layer
 {
@@ -11,6 +12,11 @@ class TestLayer : public Teal::Layer
 public:
 	TestLayer() : Layer("Test Layer")
 	{
+	}
+
+	~TestLayer()
+	{
+
 	}
 
 	void OnAttach(Teal::Renderer& renderer)
@@ -51,57 +57,37 @@ public:
 			renderer.NewIndexBuffer(sidata, 6)
 		);
 
-		std::string vsrc;
-		std::string fsrc;
 		std::string svsrc;
 		std::string sfsrc;
-
-		vsrc = R"(
-			#version 410 core
-			layout(location=0) in vec3 position;
-			layout(location=1) in vec4 color;			
-
-			uniform mat4 camera;
-
-			out vec3 v_pos;
-			out vec4 v_color;
-			void main()
-			{
-				v_pos = position;
-				v_color = color;
-				gl_Position = camera * vec4(position, 1.0);
-			}
-		)";
-		fsrc = R"(
-			#version 410 core
-			in vec3 v_pos;
-			in vec4 v_color;
-			out vec4 color;
-			void main()
-			{
-				color = vec4(v_pos * 0.5 + 0.5, 1.0) * v_color;
-			}
-		)";
 
 		svsrc = R"(
 			#version 410 core
 			layout(location=0) in vec3 position;
 			uniform mat4 camera;
+		
+			out vec3 v_pos;
+
 			void main()
 			{
+				v_pos = position;
 				gl_Position = camera * vec4(position, 1.0);
 			}
 		)";
 		sfsrc = R"(
 			#version 410 core
 			out vec4 color;
+			in vec3 v_pos;
 			void main()
 			{
-				color = vec4(0.4f, 0.1f, 0.9, 1.0);
+				float h = (v_pos.x * v_pos.x) + (v_pos.y * v_pos.y);
+				if (h <= (0.75 * 0.75)) {
+					color = vec4(0.4f, 0.1f, 0.9, 1.0);
+				}
+				else {color = vec4(0, 0, 0, 0);}
 			}
 		)";
 
-		shader = renderer.NewShader(vsrc, fsrc);
+		shader = renderer.NewShader("C:\\Users\\vaeco\\projects\\test.shader");
 		sshader = renderer.NewShader(svsrc, sfsrc);
 
 		//camera.Rotate(45.0f, { 0, 0, 1 });
@@ -180,31 +166,31 @@ public:
 		}
 	}
 
-	void OnUpdate(Teal::Renderer& renderer)
+	void OnUpdate(const Teal::DeltaTime& dt, Teal::Renderer& renderer)
 	{
+		float tspeed = 1.0f * dt;
+		float rspeed = 40.0f * dt;
 		renderer.Clear({ 0.0f, 0.0f, 0.0f, 1.0f });
 		renderer.Submit(sva, sshader, camera);
 		renderer.Submit(va, shader, camera);
 		camera.Translate({
-			(key[0] ? 0.1f : 0.0f) + (key[1] ? -0.1f : 0.0f),
-			(key[2] ? 0.1f : 0.0f) + (key[3] ? -0.1f : 0.0f),
+			(key[0] ? tspeed : 0.0f) + (key[1] ? -tspeed : 0.0f),
+			(key[2] ? tspeed : 0.0f) + (key[3] ? -tspeed : 0.0f),
 			0.0f
 		});
 
-		camera.Rotate((key[4] ? 1.0f : 0.0f) + (key[5] ? -1.0f : 0.0f), { 0, 0, 1 });
+		camera.Rotate((key[4] ? rspeed : 0.0f) + (key[5] ? -rspeed : 0.0f), { 0, 0, 1 });
 	}
 };
 
 class Testbed : public Teal::Application
 {
 public:
-	TestLayer* layer;
 	Testbed()
 	{
 		ClientLogger.Trace("The app has started!");
-		p_Window->SetVSync(true);
-		layer = new TestLayer();
-		PushLayer(std::shared_ptr<TestLayer>(layer));
+		p_Window->SetVSync(false);
+		PushLayer(std::shared_ptr<TestLayer>(new TestLayer()));
 	}
 
 

@@ -6,5 +6,6 @@
 #include "core/Logger.h"
 #include "core/Layer.h"
 #include "core/LayerStack.h"
+#include "core/Time.h"
 #include "core/Window.h"
 #include "imgui/ImGuiLayer.h"

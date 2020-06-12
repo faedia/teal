@@ -11,7 +11,7 @@ obj
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
-/testbed/imgui.ini
+imgui.ini
 
 # Make
 Makefile

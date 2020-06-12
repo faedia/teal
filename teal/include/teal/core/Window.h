@@ -4,6 +4,7 @@
 #include "teal/Event.h"
 #include "teal/render/RenderingContext.h"
 #include "teal/render/Renderer.h"
+#include "Time.h"
 
 namespace Teal
 {
@@ -24,6 +25,7 @@ namespace Teal
 
 		inline std::unique_ptr<RenderingContext>& GetRenderingContext() { return _RenderingContext; }
 		inline std::unique_ptr<Renderer>& GetRenderer() { return _Renderer; }
+		inline std::shared_ptr<DeltaTime>& GetDeltaTime() { return _DeltaTime; }
 
 		inline void* GetWindowData() const { return _WindowData; }
 
@@ -36,6 +38,7 @@ namespace Teal
 	private:
 		EventCallback _EventCallback;
 		void* _WindowData;
+		std::shared_ptr<DeltaTime> _DeltaTime;
 		std::unique_ptr<RenderingContext> _RenderingContext;
 		std::unique_ptr<Renderer> _Renderer;
 	};

@@ -14,8 +14,8 @@ namespace Teal {
 
 		virtual void onEvent(Event& event) override;
 
-		void OnAttach(Renderer& renderer);
-		void OnDetach(Renderer& renderer);
+		void OnAttach(Renderer& renderer) override;
+		void OnDetach() override;
 
 		void Begin();
 		void End();

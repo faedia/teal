@@ -17,7 +17,8 @@ namespace Teal
 			case GL_DEBUG_SEVERITY_LOW:
 				TL_CORE_DEBUG(msg); break;
 			case GL_DEBUG_SEVERITY_NOTIFICATION:
-				TL_CORE_TRACE(msg); break;
+				//TL_CORE_TRACE(msg); 
+				break;
 			}
 	}
 

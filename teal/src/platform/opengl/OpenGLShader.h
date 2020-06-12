@@ -10,11 +10,14 @@ namespace Teal
 	{
 	public:
 		OpenGLShader(const std::string& vstr, const std::string& fstr);
+		OpenGLShader(const std::string& name);
 		virtual ~OpenGLShader() override;
 		virtual void Bind() override;
 		virtual void UploadUniformMat4(const std::string& name, const Math::Mat4f& mat) override;
 		
-		void CompileShader(GLint shader, std::string str);
+		static std::unordered_map<GLenum, std::string> Preprocess(const std::string& src);
+		static GLuint CompileShader(GLenum type, const std::string& str);
+		static GLuint LinkShader(const std::vector<GLuint>& shaders);
 	private:
 		GLuint _Program;
 	};

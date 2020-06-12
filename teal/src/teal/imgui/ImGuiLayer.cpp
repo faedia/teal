@@ -45,7 +45,7 @@ namespace Teal
 #endif
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
-	void ImGuiLayer::OnDetach(Renderer& renderer)
+	void ImGuiLayer::OnDetach()
 {
 #ifdef TL_WIN32
 		ImGui_ImplWin32_Shutdown();

@@ -36,7 +36,7 @@ namespace Teal
 	
 	std::shared_ptr<Shader> OpenGLRenderer::NewShader(const std::string& file)
 	{
-		return std::shared_ptr<OpenGLShader>(nullptr);
+		return std::shared_ptr<OpenGLShader>(new OpenGLShader(file));
 	}
 
 	std::shared_ptr<Buffers::Vertex> OpenGLRenderer::NewVertexBuffer(float* vertices, const unsigned int& size, const Buffers::Layout& layout)
