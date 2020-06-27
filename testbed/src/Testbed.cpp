@@ -189,7 +189,7 @@ public:
 	Testbed()
 	{
 		ClientLogger.Trace("The app has started!");
-		p_Window->SetVSync(false);
+		p_Window->SetVSync(true);
 		PushLayer(std::shared_ptr<TestLayer>(new TestLayer()));
 	}
 

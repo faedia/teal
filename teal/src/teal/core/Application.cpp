@@ -53,14 +53,15 @@ namespace Teal
 				layer->OnUpdate(*p_Window->GetDeltaTime(), *p_Window->GetRenderer().get());
 			p_Window->GetRenderer()->End();
 
-			p_ImGuiLayer->Begin();
 			if (times.size() == 50)
 				times.pop_front();
-			double ti = p_Window->GetDeltaTime()->GetSeconds();
-			times.push_back(ti);
+			times.push_back(p_Window->GetDeltaTime()->GetSeconds());
+
 			double avg = 0;
 			for (auto t : times)
 				avg += t;
+
+			p_ImGuiLayer->Begin();
 			ImGui::Text("Fps: %d", (int)round(1/(avg/times.size())));
 			p_ImGuiLayer->End();
 
